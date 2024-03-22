@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="B4PFM8" name="juce-plugin" projectType="guiapp" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+  <MAINGROUP id="deaIj6" name="juce-plugin">
+    <GROUP id="{E5F9671B-A9C5-141A-D6C9-2F14357B01DA}" name="Source">
+      <FILE id="BxWIPq" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+      <FILE id="OpJykn" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
+      <FILE id="CjY7cD" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <MODULES>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
+  <EXPORTFORMATS>
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="juce-plugin"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="juce-plugin"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../../../../../../usr/share/juce/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../../../usr/share/juce/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../../../usr/share/juce/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../../../usr/share/juce/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../../../usr/share/juce/modules"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+  </EXPORTFORMATS>
+</JUCERPROJECT>
