@@ -8,8 +8,6 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include "SynthSound.h"
-#include "SynthVoice.h"
 
 //==============================================================================
 JucepluginAudioProcessor::JucepluginAudioProcessor()
@@ -25,14 +23,6 @@ JucepluginAudioProcessor::JucepluginAudioProcessor()
       )
 #endif
 {
-  mySynth.clearVoices();
-
-  for (int i = 0; i < 1; i++) {
-    mySynth.addVoice(new SynthVoice());
-  }
-
-  mySynth.clearSounds();
-  mySynth.addSound(new SynthSound());
 }
 
 JucepluginAudioProcessor::~JucepluginAudioProcessor() {}
@@ -90,7 +80,6 @@ void JucepluginAudioProcessor::prepareToPlay(double sampleRate,
                                              int samplesPerBlock) {
   juce::ignoreUnused(samplesPerBlock);
   lastSampleRate = sampleRate;
-  mySynth.setCurrentPlaybackSampleRate(lastSampleRate);
 }
 
 void JucepluginAudioProcessor::releaseResources() {
@@ -134,8 +123,7 @@ void JucepluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
   juce::AudioBuffer<float> synth_buffer =
       juce::AudioBuffer<float>(buffer.getNumChannels(), buffer.getNumSamples());
   synth_buffer.clear();
-  mySynth.renderNextBlock(synth_buffer, midiMessages, 0,
-                          buffer.getNumSamples());
+  ksRenderNextBlock(synth_buffer, 0, buffer.getNumSamples());
 
   for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
     buffer.clear(i, 0, buffer.getNumSamples());
@@ -218,14 +206,21 @@ juce::AudioProcessor *JUCE_CALLTYPE createPluginFilter() {
   return new JucepluginAudioProcessor();
 }
 
+void JucepluginAudioProcessor::ksRenderNextBlock(
+    juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples) {
+  for (int sample = 0; sample < numSamples; ++sample) {
+    double theWave = osc1.sinewave(440.0f);
+
+    for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel) {
+      outputBuffer.addSample(channel, startSample, theWave);
+    }
+
+    ++startSample;
+  }
+}
+
 void JucepluginAudioProcessor::startKarplusStrong(float decay, float delay,
                                                   float width) {
-
-  if (karplusPlaying) {
-    mySynth.noteOff(1, 60, (juce::uint8)127, true);
-  } else {
-    mySynth.noteOn(1, 60, (juce::uint8)127);
-  }
 
   karplusPlaying = !karplusPlaying;
 }
