@@ -53,7 +53,7 @@ public:
   void setStateInformation(const void *data, int sizeInBytes) override;
 
   float mGain{-6.0};
-  int mPitch{1};
+  int mPitch{0};
 
 private:
   //==============================================================================

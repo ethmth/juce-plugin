@@ -125,6 +125,39 @@ void JucepluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
   for (int channel = 0; channel < totalNumInputChannels; ++channel) {
     auto *channelData = buffer.getWritePointer(channel);
 
+    // Pitch Processing
+    if (mPitch > 0) {
+      const int sample_jump = pow(2, mPitch);
+      const int buff_size = buffer.getNumSamples() / sample_jump;
+
+      float buff[buff_size];
+
+      for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
+        if (sample % sample_jump == 0) {
+          buff[sample / sample_jump] = channelData[sample];
+        }
+      }
+
+      for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
+        if (sample % sample_jump == 0) {
+          channelData[sample] = buff[sample % buff_size];
+        }
+      }
+
+    } else if (mPitch < 0) {
+      const int sample_jump = pow(2, mPitch * -1);
+      float cur_val = 0.0f;
+
+      for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
+        if (sample % sample_jump == 0) {
+          cur_val = channelData[sample];
+        } else {
+          channelData[sample] = cur_val;
+        }
+      }
+    }
+
+    // Gain Processing
     for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
       channelData[sample] *= juce::Decibels::decibelsToGain(mGain);
     }

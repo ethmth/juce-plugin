@@ -29,8 +29,8 @@ JucepluginAudioProcessorEditor::JucepluginAudioProcessorEditor(
   // Pitch Slider
   mPitchSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
   mPitchSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
-  mPitchSlider.setRange(1, 2, 1);
-  mPitchSlider.setValue(1);
+  mPitchSlider.setRange(0, 1, 1);
+  mPitchSlider.setValue(0);
   mPitchSlider.addListener(this);
   addAndMakeVisible(mPitchSlider);
 
