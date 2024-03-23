@@ -55,7 +55,13 @@ public:
   float mGain{-6.0};
   int mPitch{0};
 
+  void startKarplusStrong(float decay, float delay, float width);
+
 private:
+  juce::Synthesiser mySynth;
+  juce::SynthesiserVoice *myVoice;
+
+  double lastSampleRate;
   //==============================================================================
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(JucepluginAudioProcessor)
 };

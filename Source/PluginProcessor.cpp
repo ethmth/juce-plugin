@@ -25,6 +25,14 @@ JucepluginAudioProcessor::JucepluginAudioProcessor()
       )
 #endif
 {
+  mySynth.clearVoices();
+
+  for (int i = 0; i < 5; i++) {
+    mySynth.addVoice(new SynthVoice());
+  }
+
+  mySynth.clearSounds();
+  mySynth.addSound(new SynthSound());
 }
 
 JucepluginAudioProcessor::~JucepluginAudioProcessor() {}
@@ -80,8 +88,9 @@ void JucepluginAudioProcessor::changeProgramName(int index,
 //==============================================================================
 void JucepluginAudioProcessor::prepareToPlay(double sampleRate,
                                              int samplesPerBlock) {
-  // Use this method as the place to do any pre-playback
-  // initialisation that you need..
+  juce::ignoreUnused(samplesPerBlock);
+  lastSampleRate = sampleRate;
+  mySynth.setCurrentPlaybackSampleRate(lastSampleRate);
 }
 
 void JucepluginAudioProcessor::releaseResources() {
@@ -121,24 +130,19 @@ void JucepluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
   auto totalNumInputChannels = getTotalNumInputChannels();
   auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+  // GENERATE MIDI BUFFER
+  juce::AudioBuffer<float> synth_buffer =
+      juce::AudioBuffer<float>(buffer.getNumChannels(), buffer.getNumSamples());
+  synth_buffer.clear();
+  mySynth.renderNextBlock(synth_buffer, midiMessages, 0,
+                          buffer.getNumSamples());
+
   for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
     buffer.clear(i, 0, buffer.getNumSamples());
 
   for (int channel = 0; channel < totalNumInputChannels; ++channel) {
     auto *channelData = buffer.getWritePointer(channel);
-
-    // // =========== Karplus Strong ===================
-
-    // // Generate White Noise
-    // float white_noise[buffer.getNumSamples()];
-    // for (int i = 0; i < buffer.getNumSamples(); i++) {
-    //   white_noise[i] = rand() * 2 - 1;
-
-    //   // a lazy lowpass filter
-    //   if (i > 0) {
-    //     white_noise[i] = white_noise[i] * 0.5 + white_noise[i - 1] * 0.5;
-    //   }
-    // }
+    auto *synth_channelData = synth_buffer.getReadPointer(channel);
 
     // ================= Pitch Processing ===================
     if (mPitch > 0) {
@@ -176,6 +180,11 @@ void JucepluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
     for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
       channelData[sample] *= juce::Decibels::decibelsToGain(mGain);
     }
+
+    // =========== ADD-IN SYNTHESIZER DATA =====================
+    for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
+      channelData[sample] += synth_channelData[sample];
+    }
   }
 }
 
@@ -207,4 +216,12 @@ void JucepluginAudioProcessor::setStateInformation(const void *data,
 // This creates new instances of the plugin..
 juce::AudioProcessor *JUCE_CALLTYPE createPluginFilter() {
   return new JucepluginAudioProcessor();
+}
+
+void JucepluginAudioProcessor::startKarplusStrong(float decay, float delay,
+                                                  float width) {
+
+  std::cout << "starting karplus strong" << std::endl;
+
+  mySynth.noteOn(1, 60, (juce::uint8)127);
 }
