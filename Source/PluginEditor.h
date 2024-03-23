@@ -11,7 +11,6 @@
 #include "PluginProcessor.h"
 #include <JuceHeader.h>
 
-
 //==============================================================================
 /**
  */
@@ -25,7 +24,7 @@ public:
   void resized() override;
 
 private:
-  // Slider mGainSlider;
+  juce::Slider mGainSlider;
 
   JucepluginAudioProcessor &audioProcessor;
 
