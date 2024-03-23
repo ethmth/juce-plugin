@@ -29,8 +29,20 @@ public:
 private:
   juce::Label mGainLabel;
   juce::Label mPitchLabel;
+
+  juce::Label mKPLabel;
+  juce::Label mKPDecayLabel;
+  juce::Label mKPDelayLabel;
+  juce::Label mKPWidthLabel;
+
   juce::Slider mGainSlider;
   juce::Slider mPitchSlider;
+
+  juce::Slider mKPDecaySlider;
+  juce::Slider mKPDelaySlider;
+  juce::Slider mKPWidthSlider;
+
+  juce::TextButton mKPStartButton;
 
   JucepluginAudioProcessor &audioProcessor;
 
