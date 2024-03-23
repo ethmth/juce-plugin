@@ -15,7 +15,8 @@
 /**
  */
 class JucepluginAudioProcessorEditor : public juce::AudioProcessorEditor,
-                                       juce::Slider::Listener {
+                                       juce::Slider::Listener,
+                                       juce::Button::Listener {
 public:
   JucepluginAudioProcessorEditor(JucepluginAudioProcessor &);
   ~JucepluginAudioProcessorEditor() override;
@@ -25,6 +26,7 @@ public:
   void resized() override;
 
   void sliderValueChanged(juce::Slider *slider) override;
+  void buttonClicked(juce::Button *button) override;
 
 private:
   juce::Label mGainLabel;

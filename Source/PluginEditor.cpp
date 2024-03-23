@@ -71,6 +71,7 @@ JucepluginAudioProcessorEditor::JucepluginAudioProcessorEditor(
   addAndMakeVisible(mKPWidthSlider);
 
   mKPStartButton.setButtonText("PLAY KP");
+  mKPStartButton.addListener(this);
   addAndMakeVisible(mKPStartButton);
 
   setSize(500, 400);
@@ -106,5 +107,12 @@ void JucepluginAudioProcessorEditor::resized() {
 void JucepluginAudioProcessorEditor::sliderValueChanged(juce::Slider *slider) {
   if (slider == &mGainSlider) {
     audioProcessor.mGain = mGainSlider.getValue();
+  } else if (slider == &mPitchSlider) {
+    audioProcessor.mPitch = mPitchSlider.getValue();
+  }
+}
+
+void JucepluginAudioProcessorEditor::buttonClicked(juce::Button *button) {
+  if (button == &mKPStartButton) {
   }
 }

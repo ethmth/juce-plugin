@@ -52,7 +52,8 @@ public:
   void getStateInformation(juce::MemoryBlock &destData) override;
   void setStateInformation(const void *data, int sizeInBytes) override;
 
-  float mGain{0.5};
+  float mGain{-6.0};
+  int mPitch{1};
 
 private:
   //==============================================================================
