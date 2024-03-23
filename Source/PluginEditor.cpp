@@ -17,6 +17,7 @@ JucepluginAudioProcessorEditor::JucepluginAudioProcessorEditor(
   mGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
   mGainSlider.setRange(0.0f, 1.0f, 0.05f);
   mGainSlider.setValue(0.5f);
+  mGainSlider.addListener(this);
   addAndMakeVisible(mGainSlider);
 
   setSize(400, 300);
@@ -31,4 +32,10 @@ void JucepluginAudioProcessorEditor::paint(juce::Graphics &g) {
 
 void JucepluginAudioProcessorEditor::resized() {
   mGainSlider.setBounds(getWidth() / 2 - 50, getHeight() / 2 - 75, 100, 150);
+}
+
+void JucepluginAudioProcessorEditor::sliderValueChanged(juce::Slider *slider) {
+  if (slider == &mGainSlider) {
+    audioProcessor.mGain = mGainSlider.getValue();
+  }
 }
