@@ -7,6 +7,7 @@
 */
 
 #include "PluginProcessor.h"
+#include "KarplusStrong.h"
 #include "PluginEditor.h"
 
 //==============================================================================
@@ -80,6 +81,7 @@ void JucepluginAudioProcessor::prepareToPlay(double sampleRate,
                                              int samplesPerBlock) {
   juce::ignoreUnused(samplesPerBlock);
   lastSampleRate = sampleRate;
+  ks.setSampleRate(lastSampleRate);
 }
 
 void JucepluginAudioProcessor::releaseResources() {
@@ -123,7 +125,7 @@ void JucepluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
   juce::AudioBuffer<float> synth_buffer =
       juce::AudioBuffer<float>(buffer.getNumChannels(), buffer.getNumSamples());
   synth_buffer.clear();
-  ksRenderNextBlock(synth_buffer, 0, buffer.getNumSamples());
+  ks.renderNextBlock(synth_buffer, 0, buffer.getNumSamples());
 
   for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
     buffer.clear(i, 0, buffer.getNumSamples());
@@ -204,23 +206,4 @@ void JucepluginAudioProcessor::setStateInformation(const void *data,
 // This creates new instances of the plugin..
 juce::AudioProcessor *JUCE_CALLTYPE createPluginFilter() {
   return new JucepluginAudioProcessor();
-}
-
-void JucepluginAudioProcessor::ksRenderNextBlock(
-    juce::AudioBuffer<float> &outputBuffer, int startSample, int numSamples) {
-  for (int sample = 0; sample < numSamples; ++sample) {
-    double theWave = osc1.sinewave(440.0f);
-
-    for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel) {
-      outputBuffer.addSample(channel, startSample, theWave);
-    }
-
-    ++startSample;
-  }
-}
-
-void JucepluginAudioProcessor::startKarplusStrong(float decay, float delay,
-                                                  float width) {
-
-  karplusPlaying = !karplusPlaying;
 }

@@ -17,6 +17,9 @@
             file="Source/PluginProcessor.h"/>
       <FILE id="taJw0g" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
+      <FILE id="L7kicq" name="KarplusStrong.cpp" compile="1" resource="0"
+            file="Source/KarplusStrong.cpp"/>
+      <FILE id="YMQoZi" name="KarplusStrong.h" compile="0" resource="0" file="Source/KarplusStrong.h"/>
       <FILE id="udxJtz" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
   </MAINGROUP>

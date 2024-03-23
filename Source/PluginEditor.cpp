@@ -114,8 +114,8 @@ void JucepluginAudioProcessorEditor::sliderValueChanged(juce::Slider *slider) {
 
 void JucepluginAudioProcessorEditor::buttonClicked(juce::Button *button) {
   if (button == &mKPStartButton) {
-    audioProcessor.startKarplusStrong(mKPDecaySlider.getValue(),
-                                      mKPDelaySlider.getValue(),
-                                      mKPWidthSlider.getValue());
+    audioProcessor.ks.startKarplusStrong(mKPDecaySlider.getValue(),
+                                         mKPDelaySlider.getValue(),
+                                         mKPWidthSlider.getValue());
   }
 }
