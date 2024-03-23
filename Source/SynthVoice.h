@@ -3,6 +3,28 @@
 #include <JuceHeader.h>
 #include <maximilian.h>
 
+class FeedbackDelayProcessor {
+public:
+  FeedbackDelayProcessor() {
+    for (int i = 0; i < buffer_size; i++) {
+      delayBuffer[i] = 0.0f;
+    }
+
+    readPtr = 0;
+    writePtr = 0;
+  }
+
+private:
+  static const int buffer_size = 1024;
+
+  float delayBuffer[buffer_size];
+  int readPtr = 0;
+  int writePtr = 0;
+
+  float gain = 0.9f;
+  float delayTime = 10.0f;
+};
+
 class SynthVoice : public juce::SynthesiserVoice {
 public:
   bool canPlaySound(juce::SynthesiserSound *sound) {
@@ -33,6 +55,10 @@ public:
       ++startSample;
     }
   }
+
+  float decay;
+  float delay;
+  float width;
 
 private:
   maxiOsc osc1;

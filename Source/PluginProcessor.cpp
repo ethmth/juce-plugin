@@ -27,7 +27,7 @@ JucepluginAudioProcessor::JucepluginAudioProcessor()
 {
   mySynth.clearVoices();
 
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 1; i++) {
     mySynth.addVoice(new SynthVoice());
   }
 
