@@ -27,7 +27,10 @@ public:
   void sliderValueChanged(juce::Slider *slider) override;
 
 private:
+  juce::Label mGainLabel;
+  juce::Label mPitchLabel;
   juce::Slider mGainSlider;
+  juce::Slider mPitchSlider;
 
   JucepluginAudioProcessor &audioProcessor;
 
