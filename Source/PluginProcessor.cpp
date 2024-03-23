@@ -125,7 +125,14 @@ void JucepluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
   for (int channel = 0; channel < totalNumInputChannels; ++channel) {
     auto *channelData = buffer.getWritePointer(channel);
 
-    // Pitch Processing
+    // =========== Karplus Strong ===================
+
+    float white_noise[buffer.getNumSamples()];
+    for (int i = 0; i < buffer.getNumSamples(); i++) {
+      white_noise[i] = rand() * 2 - 1;
+    }
+
+    // ================= Pitch Processing ===================
     if (mPitch > 0) {
       const int sample_jump = pow(2, mPitch);
       const int buff_size = buffer.getNumSamples() / sample_jump;
@@ -157,7 +164,7 @@ void JucepluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
       }
     }
 
-    // Gain Processing
+    // =========== Gain Processing =====================
     for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
       channelData[sample] *= juce::Decibels::decibelsToGain(mGain);
     }
