@@ -1,0 +1,3 @@
+[submodule "Source/Maximilian"]
+	path = Source/Maximilian
+	url = https://github.com/micknoise/Maximilian.git

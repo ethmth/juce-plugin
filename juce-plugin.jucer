@@ -5,6 +5,8 @@
               pluginCharacteristicsValue="pluginWantsMidiIn">
   <MAINGROUP id="omucuv" name="juce-plugin">
     <GROUP id="{9FD23CC7-DAC7-8AB5-6DE2-04AEF34F5976}" name="Source">
+      <FILE id="XoKETl" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
+      <FILE id="PCA6ku" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
       <FILE id="rZx6Hf" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="B5He1N" name="PluginProcessor.h" compile="0" resource="0"
@@ -34,8 +36,8 @@
   <EXPORTFORMATS>
     <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="juce-plugin"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="juce-plugin"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="juce-plugin" headerPath="../../Source/Maximilian/src/"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="juce-plugin" headerPath="../../Source/Maximilian/src/"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_audio_basics" path="../../../../../../usr/share/juce/modules"/>

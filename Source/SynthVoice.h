@@ -1,6 +1,7 @@
 #pragma once
 #include "SynthSound.h"
 #include <JuceHeader.h>
+#include <maximilian.h>
 
 class SynthVoice : public juce::SynthesiserVoice {
 public:
@@ -32,4 +33,5 @@ public:
   }
 
 private:
+  double level;
 };
