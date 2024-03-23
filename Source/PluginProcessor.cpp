@@ -8,6 +8,8 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "SynthSound.h"
+#include "SynthVoice.h"
 
 //==============================================================================
 JucepluginAudioProcessor::JucepluginAudioProcessor()
@@ -125,12 +127,18 @@ void JucepluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
   for (int channel = 0; channel < totalNumInputChannels; ++channel) {
     auto *channelData = buffer.getWritePointer(channel);
 
-    // =========== Karplus Strong ===================
+    // // =========== Karplus Strong ===================
 
-    float white_noise[buffer.getNumSamples()];
-    for (int i = 0; i < buffer.getNumSamples(); i++) {
-      white_noise[i] = rand() * 2 - 1;
-    }
+    // // Generate White Noise
+    // float white_noise[buffer.getNumSamples()];
+    // for (int i = 0; i < buffer.getNumSamples(); i++) {
+    //   white_noise[i] = rand() * 2 - 1;
+
+    //   // a lazy lowpass filter
+    //   if (i > 0) {
+    //     white_noise[i] = white_noise[i] * 0.5 + white_noise[i - 1] * 0.5;
+    //   }
+    // }
 
     // ================= Pitch Processing ===================
     if (mPitch > 0) {
