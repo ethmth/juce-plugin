@@ -5,6 +5,12 @@
               pluginCharacteristicsValue="pluginWantsMidiIn">
   <MAINGROUP id="omucuv" name="juce-plugin">
     <GROUP id="{9FD23CC7-DAC7-8AB5-6DE2-04AEF34F5976}" name="Source">
+      <GROUP id="{2FBFCF8B-A324-1261-08AD-BD89A0283747}" name="Maximilian">
+        <GROUP id="{32327A14-7EE2-8E1E-E8AB-C03480466770}" name="src">
+          <FILE id="yP8GLL" name="maximilian.cpp" compile="1" resource="0" file="Source/Maximilian/src/maximilian.cpp"/>
+          <FILE id="JRN2CL" name="maximilian.h" compile="0" resource="0" file="Source/Maximilian/src/maximilian.h"/>
+        </GROUP>
+      </GROUP>
       <FILE id="XoKETl" name="SynthSound.h" compile="0" resource="0" file="Source/SynthSound.h"/>
       <FILE id="PCA6ku" name="SynthVoice.h" compile="0" resource="0" file="Source/SynthVoice.h"/>
       <FILE id="rZx6Hf" name="PluginProcessor.cpp" compile="1" resource="0"

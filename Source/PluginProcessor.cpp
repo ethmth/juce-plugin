@@ -221,7 +221,11 @@ juce::AudioProcessor *JUCE_CALLTYPE createPluginFilter() {
 void JucepluginAudioProcessor::startKarplusStrong(float decay, float delay,
                                                   float width) {
 
-  std::cout << "starting karplus strong" << std::endl;
+  if (karplusPlaying) {
+    mySynth.noteOff(1, 60, (juce::uint8)127, true);
+  } else {
+    mySynth.noteOn(1, 60, (juce::uint8)127);
+  }
 
-  mySynth.noteOn(1, 60, (juce::uint8)127);
+  karplusPlaying = !karplusPlaying;
 }

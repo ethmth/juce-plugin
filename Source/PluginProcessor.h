@@ -62,6 +62,8 @@ private:
   juce::SynthesiserVoice *myVoice;
 
   double lastSampleRate;
+
+  bool karplusPlaying = false;
   //==============================================================================
   JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(JucepluginAudioProcessor)
 };
