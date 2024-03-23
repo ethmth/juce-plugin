@@ -15,8 +15,8 @@ JucepluginAudioProcessorEditor::JucepluginAudioProcessorEditor(
     : AudioProcessorEditor(&p), audioProcessor(p) {
   mGainSlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
   mGainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 50, 20);
-  mGainSlider.setRange(0.0f, 1.0f, 0.05f);
-  mGainSlider.setValue(0.5f);
+  mGainSlider.setRange(-60.0f, 0.0f, 0.01f);
+  mGainSlider.setValue(-6.0f);
   mGainSlider.addListener(this);
   addAndMakeVisible(mGainSlider);
 
