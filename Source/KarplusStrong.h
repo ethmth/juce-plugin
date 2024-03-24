@@ -10,7 +10,6 @@
 
 #pragma once
 #include <JuceHeader.h>
-#include <maximilian.h>
 
 class KarplusStrong {
 public:
@@ -40,7 +39,7 @@ private:
   int readPtr = 0;
   int writePtr = 0;
 
-  static const int bufferSize = 1024;
+  static const int bufferSize = 4096;
   float delayBuffer[bufferSize];
 
   double decay = 0.9f;

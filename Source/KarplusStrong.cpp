@@ -9,7 +9,6 @@
 */
 
 #include "KarplusStrong.h"
-#include <iostream>
 
 KarplusStrong::KarplusStrong() {
 
@@ -36,7 +35,7 @@ void KarplusStrong::generateWhiteNoise(float *input, int inputSize) {
 
 void KarplusStrong::generateNoiseEnv(float *input, int inputSize) {
 
-  float whitenoise[1024];
+  float whitenoise[inputSize];
   generateWhiteNoise(whitenoise, inputSize);
 
   float gains[inputSize];
@@ -61,18 +60,11 @@ void KarplusStrong::generateGainArray(float *input, int inputSize) {
 bool KarplusStrong::process(float *output, int outputLength, float *input,
                             int inputLength) {
 
-  // float input[1024];
-  // generateWhiteNoise(input, bufferSize);
-
   int delaySamples =
       floor((double)(lastSampleRate * delayTime) / (double)1000.0f);
 
   for (int i = 0; i < outputLength; i++) {
     output[i] = decay * delayBuffer[readPtr] + input[i];
-
-    // std::cout << "Sample rate is " << lastSampleRate << "\n";
-    // std::cout << "input[" << i << "] is " << input[i] << "\n";
-    // std::cout << "output[" << i << "] is " << output[i] << "\n";
 
     // a lazy lowpass filter
     if (i > 0) {
@@ -108,7 +100,6 @@ void KarplusStrong::renderNextBlock(juce::AudioBuffer<float> &outputBuffer,
       output[i] += noiseenv[i];
     }
   }
-  // std::cout << "Gain is " << gain << "\n";
 }
 
 void KarplusStrong::playNote() {
@@ -116,16 +107,9 @@ void KarplusStrong::playNote() {
       delay + ((1000 * (double)blockSize) / (double)lastSampleRate);
   delayTime = newDelay;
 
-  std::cout << "new delay " << newDelay << "\n";
-
   double secondsUntilQuiet = (double)width / (double)1000.0f;
   double samplesUntilQuiet = lastSampleRate * secondsUntilQuiet;
   double blocksUntilQuiet = samplesUntilQuiet / blockSize;
-
-  std::cout << "Sample rate is " << lastSampleRate;
-  std::cout << secondsUntilQuiet << " seconds until quiet\n";
-  std::cout << samplesUntilQuiet << " samples until quiet\n";
-  std::cout << blocksUntilQuiet << " blocks until quiet\n";
 
   gainDecay = PEAK_GAIN / samplesUntilQuiet;
   gain = PEAK_GAIN;
@@ -137,8 +121,5 @@ void KarplusStrong::startKarplusStrong(double newDecay, double newDelay,
   delay = (double)newDelay;
   width = (double)newWidth;
 
-  std::cout << "decay " << decay << "\n";
-  std::cout << "delay " << delay << "\n";
-  std::cout << "width " << width << "\n";
   playNote();
 }

@@ -125,57 +125,57 @@ void JucepluginAudioProcessor::processBlock(juce::AudioBuffer<float> &buffer,
   juce::AudioBuffer<float> synth_buffer =
       juce::AudioBuffer<float>(buffer.getNumChannels(), buffer.getNumSamples());
   synth_buffer.clear();
-  ks.renderNextBlock(buffer, 0, buffer.getNumSamples());
+  ks.renderNextBlock(synth_buffer, 0, buffer.getNumSamples());
 
-  // for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-  //   buffer.clear(i, 0, buffer.getNumSamples());
+  for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+    buffer.clear(i, 0, buffer.getNumSamples());
 
-  // for (int channel = 0; channel < totalNumInputChannels; ++channel) {
-  //   auto *channelData = buffer.getWritePointer(channel);
-  //   auto *synth_channelData = synth_buffer.getReadPointer(channel);
+  for (int channel = 0; channel < totalNumInputChannels; ++channel) {
+    auto *channelData = buffer.getWritePointer(channel);
+    auto *synth_channelData = synth_buffer.getReadPointer(channel);
 
-  //   // ================= Pitch Processing ===================
-  //   if (mPitch > 0) {
-  //     const int sample_jump = pow(2, mPitch);
-  //     const int buff_size = buffer.getNumSamples() / sample_jump;
+    // ================= Pitch Processing ===================
+    if (mPitch > 0) {
+      const int sample_jump = pow(2, mPitch);
+      const int buff_size = buffer.getNumSamples() / sample_jump;
 
-  //     float buff[buff_size];
+      float buff[buff_size];
 
-  //     for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
-  //       if (sample % sample_jump == 0) {
-  //         buff[sample / sample_jump] = channelData[sample];
-  //       }
-  //     }
+      for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
+        if (sample % sample_jump == 0) {
+          buff[sample / sample_jump] = channelData[sample];
+        }
+      }
 
-  //     for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
-  //       if (sample % sample_jump == 0) {
-  //         channelData[sample] = buff[sample % buff_size];
-  //       }
-  //     }
+      for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
+        if (sample % sample_jump == 0) {
+          channelData[sample] = buff[sample % buff_size];
+        }
+      }
 
-  //   } else if (mPitch < 0) {
-  //     const int sample_jump = pow(2, mPitch * -1);
-  //     float cur_val = 0.0f;
+    } else if (mPitch < 0) {
+      const int sample_jump = pow(2, mPitch * -1);
+      float cur_val = 0.0f;
 
-  //     for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
-  //       if (sample % sample_jump == 0) {
-  //         cur_val = channelData[sample];
-  //       } else {
-  //         channelData[sample] = cur_val;
-  //       }
-  //     }
-  //   }
+      for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
+        if (sample % sample_jump == 0) {
+          cur_val = channelData[sample];
+        } else {
+          channelData[sample] = cur_val;
+        }
+      }
+    }
 
-  //   // =========== Gain Processing =====================
-  //   for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
-  //     channelData[sample] *= juce::Decibels::decibelsToGain(mGain);
-  //   }
+    // =========== Gain Processing =====================
+    for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
+      channelData[sample] *= juce::Decibels::decibelsToGain(mGain);
+    }
 
-  //   // =========== ADD-IN SYNTHESIZER DATA =====================
-  //   for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
-  //     channelData[sample] += synth_channelData[sample];
-  //   }
-  // }
+    // =========== ADD-IN SYNTHESIZER DATA =====================
+    for (int sample = 0; sample < buffer.getNumSamples(); ++sample) {
+      channelData[sample] += synth_channelData[sample];
+    }
+  }
 }
 
 //==============================================================================

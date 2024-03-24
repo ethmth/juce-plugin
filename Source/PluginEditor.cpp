@@ -58,14 +58,14 @@ JucepluginAudioProcessorEditor::JucepluginAudioProcessorEditor(
 
   mKPDelaySlider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
   mKPDelaySlider.setTextBoxStyle(juce::Slider::TextBoxRight, true, 50, 20);
-  mKPDelaySlider.setRange(7.0f, 13.0f, 0.01f);
+  mKPDelaySlider.setRange(1.0f, 20.0f, 0.01f);
   mKPDelaySlider.setValue(10.0f);
   mKPDelaySlider.addListener(this);
   addAndMakeVisible(mKPDelaySlider);
 
   mKPWidthSlider.setSliderStyle(juce::Slider::SliderStyle::LinearHorizontal);
   mKPWidthSlider.setTextBoxStyle(juce::Slider::TextBoxRight, true, 50, 20);
-  mKPWidthSlider.setRange(0.0f, 20.0f, 0.01f);
+  mKPWidthSlider.setRange(1.0f, 20.0f, 0.01f);
   mKPWidthSlider.setValue(10.0f);
   mKPWidthSlider.addListener(this);
   addAndMakeVisible(mKPWidthSlider);
