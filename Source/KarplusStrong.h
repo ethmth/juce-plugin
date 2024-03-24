@@ -20,18 +20,24 @@ public:
 
   void renderNextBlock(juce::AudioBuffer<float> &outputBuffer, int startSample,
                        int numSamples);
+
+  void generateWhiteNoise(float *, int);
+  bool process(float *, int);
+
   void startKarplusStrong(float decay, float delay, float width);
 
 private:
-  maxiOsc osc1;
-
   double lastSampleRate;
 
-  static const int buffer_size = 1024;
-  float delayBuffer[buffer_size];
-  int readPtr = 0;
-  int writePtr = 0;
+  int readPtr;
+  int writePtr;
 
-  float gain = 0.9f;
-  float delayTime = 10.0f;
+  float decay = 0.9f;
+  float delay = 10.0f;
+  float width = 10.0f;
+
+  static const int bufferSize = 1024;
+  float delayBuffer[bufferSize];
+
+  // float level = 0;
 };
