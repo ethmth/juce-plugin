@@ -33,12 +33,24 @@ void KarplusStrong::generateWhiteNoise(float *input, int inputSize) {
   }
 }
 
+void KarplusStrong::generateGainArray(float *input, int inputSize) {
+  for (int i = 0; i < inputSize; i++) {
+    input[i] = gain;
+    if (gain > 0.00001f) {
+      gain -= gainDecay;
+    } else {
+      gain = 0.0f;
+    }
+  }
+}
+
 bool KarplusStrong::process(float *output, int outputLength) {
 
   float input[1024];
   generateWhiteNoise(input, bufferSize);
 
-  int delaySamples = floor((lastSampleRate * delayTime) / 1000);
+  int delaySamples =
+      floor((double)(lastSampleRate * delayTime) / (double)1000.0f);
 
   for (int i = 0; i < outputLength; i++) {
     output[i] = decay * delayBuffer[readPtr] + input[i];
@@ -64,17 +76,6 @@ bool KarplusStrong::process(float *output, int outputLength) {
   return true;
 }
 
-void KarplusStrong::generateGainArray(float *input, int inputSize) {
-  for (int i = 0; i < inputSize; i++) {
-    input[i] = gain;
-    if (gain > 0.00001f) {
-      gain -= gainDecay;
-    } else {
-      gain = 0.0f;
-    }
-  }
-}
-
 void KarplusStrong::renderNextBlock(juce::AudioBuffer<float> &outputBuffer,
                                     int startSample, int numSamples) {
 
@@ -90,17 +91,13 @@ void KarplusStrong::renderNextBlock(juce::AudioBuffer<float> &outputBuffer,
     for (int i = 0; i < outputBuffer.getNumSamples(); i++) {
       output[i] *= gains[i];
       if (gains[i] > 0.0000001f) {
-        // std::cout << "Gain is " << gains[i] << "\n";
-        // std::cout << "Output is " << output[i] << "\n";
+        std::cout << "Gain is " << gains[i] << "\n";
+        std::cout << "Output is " << output[i] << "\n";
       }
     }
   }
   // std::cout << "Gain is " << gain << "\n";
 }
-
-void KarplusStrong::startNote() {}
-
-void KarplusStrong::stopNote() {}
 
 void KarplusStrong::playNote() {
   double newDelay =
@@ -118,11 +115,8 @@ void KarplusStrong::playNote() {
   std::cout << samplesUntilQuiet << " samples until quiet\n";
   std::cout << blocksUntilQuiet << " blocks until quiet\n";
 
-  // gainDecay = PEAK_GAIN / blocksUntilQuiet;
   gainDecay = PEAK_GAIN / samplesUntilQuiet;
   gain = PEAK_GAIN;
-
-  std::cout << "Gain Decay set to " << gainDecay << "\n";
 }
 
 void KarplusStrong::startKarplusStrong(double newDecay, double newDelay,

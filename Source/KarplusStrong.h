@@ -19,29 +19,25 @@ public:
   void setSampleRate(double);
   void setBlockSize(int);
 
+  void generateWhiteNoise(float *, int);
+  void generateGainArray(float *, int);
+
+  bool process(float *, int);
   void renderNextBlock(juce::AudioBuffer<float> &outputBuffer, int startSample,
                        int numSamples);
 
-  void generateWhiteNoise(float *, int);
-  void generateGainArray(float *, int);
-  bool process(float *, int);
-
-  void startNote();
-  void stopNote();
-
   void playNote();
-
   void startKarplusStrong(double decay, double delay, double width);
 
 private:
   const double PEAK_GAIN = 0.1f;
 
-  double lastSampleRate;
-  int blockSize;
+  double lastSampleRate = 44100;
+  int blockSize = 512;
 
-  double delayTime;
-  int readPtr;
-  int writePtr;
+  double delayTime = 10.0f;
+  int readPtr = 0;
+  int writePtr = 0;
 
   static const int bufferSize = 1024;
   float delayBuffer[bufferSize];
