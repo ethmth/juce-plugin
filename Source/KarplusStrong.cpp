@@ -28,8 +28,22 @@ void KarplusStrong::setSampleRate(double sampleRate) {
 void KarplusStrong::setBlockSize(int newBlock) { blockSize = newBlock; }
 
 void KarplusStrong::generateWhiteNoise(float *input, int inputSize) {
+
   for (int i = 0; i < inputSize; i++) {
     input[i] = ((float)rand() / (float)(RAND_MAX / 1.0f) * 2 - 1) * 0.5;
+  }
+}
+
+void KarplusStrong::generateNoiseEnv(float *input, int inputSize) {
+
+  float whitenoise[1024];
+  generateWhiteNoise(whitenoise, inputSize);
+
+  float gains[inputSize];
+  generateGainArray(gains, inputSize);
+
+  for (int i = 0; i < inputSize; i++) {
+    input[i] = whitenoise[i] * gains[i];
   }
 }
 
@@ -44,10 +58,11 @@ void KarplusStrong::generateGainArray(float *input, int inputSize) {
   }
 }
 
-bool KarplusStrong::process(float *output, int outputLength) {
+bool KarplusStrong::process(float *output, int outputLength, float *input,
+                            int inputLength) {
 
-  float input[1024];
-  generateWhiteNoise(input, bufferSize);
+  // float input[1024];
+  // generateWhiteNoise(input, bufferSize);
 
   int delaySamples =
       floor((double)(lastSampleRate * delayTime) / (double)1000.0f);
@@ -79,21 +94,18 @@ bool KarplusStrong::process(float *output, int outputLength) {
 void KarplusStrong::renderNextBlock(juce::AudioBuffer<float> &outputBuffer,
                                     int startSample, int numSamples) {
 
-  float gains[outputBuffer.getNumSamples()];
-  generateGainArray(gains, outputBuffer.getNumSamples());
+  float noiseenv[outputBuffer.getNumSamples()];
+  generateNoiseEnv(noiseenv, outputBuffer.getNumSamples());
 
   setBlockSize(outputBuffer.getNumSamples());
   outputBuffer.clear();
   for (int channel = 0; channel < outputBuffer.getNumChannels(); ++channel) {
     auto *output = outputBuffer.getWritePointer(channel);
-    process(output, outputBuffer.getNumSamples());
+    process(output, outputBuffer.getNumSamples(), noiseenv,
+            outputBuffer.getNumSamples());
 
     for (int i = 0; i < outputBuffer.getNumSamples(); i++) {
-      output[i] *= gains[i];
-      if (gains[i] > 0.0000001f) {
-        std::cout << "Gain is " << gains[i] << "\n";
-        std::cout << "Output is " << output[i] << "\n";
-      }
+      output[i] += noiseenv[i];
     }
   }
   // std::cout << "Gain is " << gain << "\n";

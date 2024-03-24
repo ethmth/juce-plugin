@@ -20,9 +20,10 @@ public:
   void setBlockSize(int);
 
   void generateWhiteNoise(float *, int);
+  void generateNoiseEnv(float *, int);
   void generateGainArray(float *, int);
 
-  bool process(float *, int);
+  bool process(float *, int, float *, int);
   void renderNextBlock(juce::AudioBuffer<float> &outputBuffer, int startSample,
                        int numSamples);
 
