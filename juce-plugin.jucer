@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="SHmNmw" name="juce-plugin" projectType="audioplug" useAppConfig="0"
-              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              pluginCharacteristicsValue="pluginWantsMidiIn">
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="omucuv" name="juce-plugin">
     <GROUP id="{9FD23CC7-DAC7-8AB5-6DE2-04AEF34F5976}" name="Source">
       <FILE id="rZx6Hf" name="PluginProcessor.cpp" compile="1" resource="0"

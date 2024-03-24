@@ -70,7 +70,7 @@ JucepluginAudioProcessorEditor::JucepluginAudioProcessorEditor(
   mKPWidthSlider.addListener(this);
   addAndMakeVisible(mKPWidthSlider);
 
-  mKPStartButton.setButtonText("PLAY KP");
+  mKPStartButton.setButtonText("PLAY NOTE");
   mKPStartButton.addListener(this);
   addAndMakeVisible(mKPStartButton);
 
