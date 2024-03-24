@@ -17,27 +17,39 @@ public:
   KarplusStrong();
 
   void setSampleRate(double);
+  void setBlockSize(int);
 
   void renderNextBlock(juce::AudioBuffer<float> &outputBuffer, int startSample,
                        int numSamples);
 
   void generateWhiteNoise(float *, int);
+  void generateGainArray(float *, int);
   bool process(float *, int);
 
-  void startKarplusStrong(float decay, float delay, float width);
+  void startNote();
+  void stopNote();
+
+  void playNote();
+
+  void startKarplusStrong(double decay, double delay, double width);
 
 private:
-  double lastSampleRate;
+  const double PEAK_GAIN = 0.1f;
 
+  double lastSampleRate;
+  int blockSize;
+
+  double delayTime;
   int readPtr;
   int writePtr;
-
-  float decay = 0.9f;
-  float delay = 10.0f;
-  float width = 10.0f;
 
   static const int bufferSize = 1024;
   float delayBuffer[bufferSize];
 
-  // float level = 0;
+  double decay = 0.9f;
+  double delay = 10.0f;
+  double width = 10.0f;
+
+  double gain = 0.0f;
+  double gainDecay;
 };
